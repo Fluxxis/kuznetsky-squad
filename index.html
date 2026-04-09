@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUZNETSKY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#080808;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+.noise{pointer-events:none;position:fixed;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;z-index:999}
+.cursor-line{position:fixed;top:0;left:0;width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.025),transparent);pointer-events:none;transition:left 0.08s linear;z-index:998}
+.hero{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 40px;position:relative;min-height:55vh}
+.line-top{width:1px;height:0;background:linear-gradient(to bottom,transparent,#fff);position:absolute;top:0;left:50%;animation:lineDown 1.2s ease forwards 0.2s}
+@keyframes lineDown{to{height:60px}}
+.tag{font-size:10px;letter-spacing:5px;color:#555;text-transform:uppercase;opacity:0;animation:fadeUp 0.8s ease forwards 0.8s;margin-bottom:20px}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,18vw,140px);letter-spacing:8px;line-height:0.9;text-align:center;color:#fff;opacity:0;animation:fadeUp 1s ease forwards 1s;position:relative}
+.title::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:0;height:1px;background:#fff;animation:widen 1s ease forwards 1.8s}
+@keyframes widen{to{width:80%}}
+.subtitle{font-size:11px;letter-spacing:6px;color:#444;text-transform:uppercase;margin-top:28px;opacity:0;animation:fadeUp 0.8s ease forwards 1.4s;text-align:center}
+.cta-hero-wrap{opacity:0;animation:fadeUp 0.8s ease forwards 1.7s;margin-top:32px}
+.cta-hero{display:flex;align-items:center;justify-content:center;gap:10px;padding:15px 40px;background:#0d0d0d;color:#fff;font-size:12px;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border-radius:50px;border:1px solid rgba(255,255,255,0.18);font-family:'Inter',sans-serif;font-weight:400;transition:border-color 0.3s,background 0.3s,transform 0.2s,box-shadow 0.3s;position:relative;overflow:hidden}
+.cta-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,0.07) 0%,transparent 70%);opacity:0;transition:opacity 0.3s}
+.cta-hero:hover{border-color:rgba(255,255,255,0.5);background:#111;box-shadow:0 0 30px rgba(255,255,255,0.06);transform:translateY(-1px)}
+.cta-hero:hover::before{opacity:1}
+.cta-hero:active{transform:scale(0.97)}
+.cta-arr{font-size:14px;transition:transform 0.3s}
+.cta-hero:hover .cta-arr{transform:translateX(4px)}
+.divider{width:100%;max-width:500px;height:1px;background:linear-gradient(90deg,transparent,#222,transparent);margin:48px 0;opacity:0;animation:fadeIn 1s ease forwards 2s}
+.desc{max-width:360px;text-align:center;font-size:13px;line-height:1.9;color:#555;letter-spacing:0.5px;padding:0 24px;opacity:0;animation:fadeUp 0.8s ease forwards 2.1s}
+.desc em{color:#aaa;font-style:normal}
+.divider2{width:60px;height:1px;background:#1a1a1a;margin:48px auto;opacity:0;animation:fadeIn 1s ease forwards 2.2s}
+.stats{display:flex;gap:48px;justify-content:center;opacity:0;animation:fadeUp 0.8s ease forwards 2.3s;margin-bottom:60px}
+.stat{display:flex;flex-direction:column;align-items:center;gap:4px}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:#fff}
+.stat-l{font-size:9px;letter-spacing:4px;color:#444;text-transform:uppercase}
+.btns{display:flex;gap:12px;margin-bottom:48px;opacity:0;animation:fadeUp 0.8s ease forwards 2.5s;flex-wrap:wrap;justify-content:center;padding:0 24px}
+.btn{display:flex;align-items:center;gap:8px;padding:13px 28px;font-size:12px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border-radius:50px;transition:all 0.3s;font-family:'Inter',sans-serif;font-weight:400;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.04);opacity:0;transition:opacity 0.3s;border-radius:50px}
+.btn:hover::after{opacity:1}
+.btn-ghost{background:transparent;border:1px solid #222;color:#555}
+.btn-ghost:hover{border-color:#3a3a3a;color:#888;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+.btn-ghost:active{transform:scale(0.97)}
+.btn-ghost svg{stroke:#444;transition:stroke 0.3s}
+.btn-ghost:hover svg{stroke:#777}
+footer{border-top:1px solid #111;width:100%;padding:20px 24px;display:flex;justify-content:center;opacity:0;animation:fadeIn 1s ease forwards 2.8s}
+footer span{font-size:9px;letter-spacing:4px;color:#222;text-transform:uppercase}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="cursor-line" id="cl"></div>
+
+<div class="hero">
+  <div class="line-top"></div>
+  <div class="tag">NFT · 2026 · Industry</div>
+  <div class="title">KUZNETSKY</div>
+  <div class="subtitle">Лучшая команда по OTC</div>
+  <div class="cta-hero-wrap">
+    <a class="cta-hero" href="https://t.me/+4-cCjAlXEURkZWJh" target="_blank">
+      Подать заявку <span class="cta-arr">→</span>
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="desc">
+  После принятия в команду ты получаешь<br>
+  <em>мощный и удобный инструмент</em><br>
+  для первых профитов
+</div>
+
+<div class="divider2"></div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-n">01</span><span class="stat-l">Оффер</span></div>
+  <div class="stat"><span class="stat-n">NFT</span><span class="stat-l">Индустрия</span></div>
+  <div class="stat"><span class="stat-n">24/7</span><span class="stat-l">Поддержка</span></div>
+</div>
+
+<div class="btns">
+  <a class="btn btn-ghost" href="https://t.me/+4-cCjAlXEURkZWJh" target="_blank">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Чат
+  </a>
+  <a class="btn btn-ghost" href="https://t.me/TrustifyGuarantBot" target="_blank">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Панель
+  </a>
+</div>
+
+<footer><span>Kuznetsky © 2026 — все права защищены</span></footer>
+
+<script>
+document.addEventListener('mousemove', function(e) {
+  document.getElementById('cl').style.left = e.clientX + 'px';
+});
+</script>
+</body>
+</html>
